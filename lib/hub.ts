@@ -1,4 +1,5 @@
-import { HUB_ADD_RECEIVER, HUB_REMOVE_RECIEVER } from "../messages";
+export const HUB_ADD_RECEIVER = Symbol("Hub: Add receiver");
+export const HUB_REMOVE_RECEIVER = Symbol("Hub: Remove receiver");
 
 export type Receiver = (messageType: symbol, message: object) => Promise<Message[] | Message | void>;
 export type Message = [messageType: symbol, message: object];
@@ -49,7 +50,7 @@ export function Hub(name: string, ...members: Receiver[]) : Receiver {
 
         if(messageType === HUB_ADD_RECEIVER)
             addReceiver(message);
-        else if(messageType === HUB_REMOVE_RECIEVER)
+        else if(messageType === HUB_REMOVE_RECEIVER)
             removeReceiver(message);
         else if (typeof messageType === "symbol")
             receive([[messageType, message]], { name: "Outside" });
